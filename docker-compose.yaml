@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=paul
+      - POSTGRES_PASSWORD=paul
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+      - paul_bot/data/schema.psql:/docker-entrypoint-initdb.d/create_tables.sql
+  paul:
+    container_name: paul
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://paul:paul@db:5432/paul
+    image: paul
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db
+volumes:
+  db:
+    driver: local

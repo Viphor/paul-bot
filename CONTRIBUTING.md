@@ -14,7 +14,7 @@ $ poetry install
 
 You obviously need to create a Discord bot to get a token.
 
-You must create a database if you want to run the bot locally. You can use https://www.elephantsql.com/ for that. Once you have the database, run `paul/data/schema.psql` on that database to create the necessay database schema.
+You must create a database if you want to run the bot locally. You can use https://www.elephantsql.com/ for that. Once you have the database, run `paul/data/schema.psql` on that database to create the necessary database schema.
 ```sh
 $ psql -h hostname -d databasename -U username -f paul/data/schema.psql
 ```
