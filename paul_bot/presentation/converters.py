@@ -70,7 +70,7 @@ def parse_interval(inter: Interaction, interval: str) -> timedelta:
     }
     try:
         parameters = {conversion[part[-1]]: float(part[:-1]) for part in interval.strip().split(' ')}
-        timedelta(**parameters)
+        return timedelta(**parameters)
     except IndexError | ValueError:
         raise FriendlyError(f'Could not parse "{interval}" as time interval', inter)
 
