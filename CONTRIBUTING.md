@@ -24,6 +24,7 @@ You will then need to add the following settings to your `.env` file to configur
 ```
 BOT_TOKEN=<Your bot token goes here.>
 DATABASE_URL=<Your database URL goes here.>
+DATABASE_SSL=<Optional. "require" if you want to use ssl, "disable" to disable ssl.>
 ERR_CHANNEL=<Optional. The ID of a Discord channel where the bot will send errors to.>
 DBG_CHANNEL=<Optional. The ID of a Discord channel where the bot will send debug messages to.>
 MAX_DB_CONNECTIONS=<Optional. The maximum number of database connections to open. This depends on your database hosting plan.>
