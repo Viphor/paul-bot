@@ -168,7 +168,7 @@ class Paul(InteractionBot):
                 break
             repeat_count += 1
             params.expires += params.repeat_time
-            asyncio.sleep(params.repeat_time.total_seconds())
+            await asyncio.sleep(params.repeat_time.total_seconds())
 
     async def new_poll(
         self, params: PollCommandParams, author_id: int, message: Message
