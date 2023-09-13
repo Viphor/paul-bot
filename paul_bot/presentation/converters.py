@@ -1,7 +1,7 @@
 from typing import Callable
 from disnake.interactions import ApplicationCommandInteraction as Interaction
 import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 import dateparser
 import re
 import logging
@@ -58,6 +58,21 @@ def parse_expires(inter: Interaction, expires: str) -> datetime:
         if result.tzinfo is None or result.tzinfo.utcoffset(result) is None
         else result
     )
+
+
+def parse_interval(inter: Interaction, interval: str) -> timedelta:
+    conversion = {
+        'w': 'weeks',
+        'd': 'days',
+        'h': 'hours',
+        'm': 'minutes',
+        's': 'seconds',
+    }
+    try:
+        parameters = {conversion[part[-1]]: float(part[:-1]) for part in interval.strip().split(' ')}
+        timedelta(**parameters)
+    except IndexError | ValueError:
+        raise FriendlyError(f'Could not parse "{interval}" as time interval', inter)
 
 
 MENTION_REGEX = re.compile(r"<(@[!&])?(\d+)>")
