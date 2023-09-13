@@ -4,8 +4,9 @@ services:
     image: postgres:15
     restart: always
     environment:
-      - POSTGRES_USER=paul
+      - POSTGRES_USER=ztczjmqg
       - POSTGRES_PASSWORD=paul
+      - POSTGRES_DB=paul
     ports:
       - '5432:5432'
     volumes:
@@ -17,7 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - DATABASE_URL=postgresql://paul:paul@db:5432/paul
+      - DATABASE_URL=postgresql://ztczjmqg:paul@db:5432/paul
       - DATABASE_SSL=disable
       - BOT_TOKEN=${BOT_TOKEN}
     image: paul
