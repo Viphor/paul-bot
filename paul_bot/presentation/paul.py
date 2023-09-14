@@ -132,7 +132,16 @@ class Paul(InteractionBot):
                 repeat_time,
                 repeat_count
             )
-            asyncio.create_task(self.repeat_poll(params, inter))
+            logger.debug(f"{inter.author.name} wants to create a poll: {params}.")
+            await inter.response.send_message(
+                embed=PollEmbedBase(
+                    params.question, "<a:loading:904120454975991828> Loading poll..."
+                )
+            )
+            message = await inter.original_message()
+            asyncio.create_task(self.repeat_poll(params, inter.author.id, message))
+            #await self.new_poll(params, inter.author.id, message)
+            logger.debug(f"{inter.author.name} successfully created a poll {question}.")
 
     async def close_poll_now(self, poll: Poll, message: Optional[Message] = None):
         """Close a poll immediately.
@@ -148,22 +157,18 @@ class Paul(InteractionBot):
         await self.__set_presence()
 
     async def repeat_poll(
-        self, params: PollCommandParams, interaction: Interaction
+        self, params: PollCommandParams, author_id: int, message: Message
     ):
         if params.repeat_time is None and params.repeat_count is not None:
-            raise FriendlyError('You need to define a repeat time if you have defined a repeat count', interaction)
-        repeat_count = 0
-        while params.repeat_count is None or repeat_count < params.repeat_count:
-            repeat_text = f' Repeated [{repeat_count}]' if params.repeat_count is not None else ''
-            logger.debug(f"{interaction.author.name} wants to create a poll: {params}.{repeat_text}")
-            await interaction.response.send_message(
+            await message.edit(
                 embed=PollEmbedBase(
-                    params.question, "<a:loading:904120454975991828> Loading poll..."
+                    'You need to define a repeat time if you have defined a repeat count.'
                 )
             )
-            message = await interaction.original_message()
-            await self.new_poll(params, interaction.author.id, message)
-            logger.debug(f"{interaction.author.name} successfully created a poll {params.question}.{repeat_text}")
+            return
+        repeat_count = 0
+        while params.repeat_count is None or repeat_count < params.repeat_count:
+            await self.new_poll(params, author_id, message)
             if params.repeat_time is None:
                 break
             repeat_count += 1
