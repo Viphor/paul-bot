@@ -7,8 +7,6 @@ services:
       - POSTGRES_USER=ztczjmqg
       - POSTGRES_PASSWORD=paul
       - POSTGRES_DB=paul
-    ports:
-      - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
       - ./paul_bot/data/schema.psql:/docker-entrypoint-initdb.d/create_tables.sql
